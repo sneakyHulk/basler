@@ -45,6 +45,11 @@ int main() {
 					cameras[i].PixelFormat.SetValue(Basler_UniversalCameraParams::PixelFormatEnums::PixelFormat_BayerRG8);
 
 					std::cout << "[Camera " << camera_names[i] << "]: attached!" << std::endl;
+
+					cameras[i].StartGrabbing();
+
+					std::cout << "[Camera " << camera_names[i] << "]: Grabbing Started...!" << std::endl;
+
 					break;
 				} catch (Pylon::GenericException const& e) {
 					std::cout << "[Camera " << camera_names[i] << "]: " << e.GetDescription() << "! Retry in 5s..." << std::endl;
@@ -54,8 +59,6 @@ int main() {
 				}
 			}
 		}
-
-		cameras.StartGrabbing();
 
 		std::this_thread::sleep_for(10s);
 	}
