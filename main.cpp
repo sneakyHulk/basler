@@ -38,7 +38,7 @@ int main() {
 
 				// Set transmission type to "multicast"
 				cameras[i].GetStreamGrabberParams().TransmissionType = Basler_UniversalStreamParams::TransmissionType_Multicast;
-				cameras[i].GetStreamGrabberParams().DestinationAddr = (std::string("239.255.0.") + std::to_string(++i)).c_str();
+				cameras[i].GetStreamGrabberParams().DestinationAddr = (std::string("239.255.0.") + std::to_string(i)).c_str();
 				cameras[i].GetStreamGrabberParams().DestinationPort = 49152 + i;
 
 				cameras[i].PixelFormat.SetValue(Basler_UniversalCameraParams::PixelFormatEnums::PixelFormat_BayerRG8);
