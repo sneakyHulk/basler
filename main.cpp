@@ -30,7 +30,7 @@ int main() {
 	Pylon::CBaslerUniversalInstantCameraArray cameras(num_cams);
 
 	for (auto i = 0; i < device_list.size(); ++i) {
-		std::cout << "Try attaching " << camera_names[i] << "..." << std::endl;
+		std::cout << "[Camera " << camera_names[i] << "]: Try attaching..." << std::endl;
 		while (true) {
 			try {
 				cameras[i].Attach(Pylon::CTlFactory::GetInstance().CreateDevice(device_list.at(i)));
@@ -43,6 +43,7 @@ int main() {
 
 				cameras[i].PixelFormat.SetValue(Basler_UniversalCameraParams::PixelFormatEnums::PixelFormat_BayerRG8);
 
+				std::cout << "[Camera " << camera_names[i] << "]: attached!" << std::endl;
 				break;
 			} catch (Pylon::GenericException const& e) {
 				std::cout << "[Camera " << camera_names[i] << "]: " << e.GetDescription() << "! Retry in 5s..." << std::endl;
