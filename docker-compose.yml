@@ -1,0 +1,10 @@
+services:
+  basler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/src/basler:ro
+      - /etc/timezone:/etc/timezone:ro
+    network_mode: host
+    command: sh -c "cmake -DCMAKE_BUILD_TYPE=Release /src/basler && cmake --build . --target basler -j 8 && ./basler"
