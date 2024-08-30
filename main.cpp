@@ -55,5 +55,7 @@ int main() {
 
 	cameras.StartGrabbing();
 
+	std::this_thread::sleep_for(10s);
+
 	Pylon::PylonTerminate();
 }
