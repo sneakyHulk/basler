@@ -19,16 +19,18 @@ int main() {
 	Pylon::DeviceInfoList device_list;
 	Pylon::CTlFactory::GetInstance().EnumerateDevices(device_list);
 	if (device_list.empty()) throw std::logic_error("No Basler devices found!");
-	//if (device_list.size() < num_cams) throw std::logic_error("Not enough Basler devices found!");
 
-	Pylon::CBaslerUniversalInstantCameraArray cameras(num_cams);
 	std::array<std::string, num_cams> camera_names;
-
 	for (auto i = 0; i < device_list.size(); ++i) {
-		camera_names[i] = device_list.at(i).GetModelName() + " @ " + device_list.at(i).GetIpAddress() + " # " + device_list.at(i).GetMacAddress();
 		std::cout << "Found " << i << " device with model name '" << device_list.at(i).GetModelName() << "', ip address '" << device_list.at(i).GetIpAddress() << "', and mac address '" << device_list.at(i).GetMacAddress() << "'."
 		          << std::endl;
+		camera_names[i] = device_list.at(i).GetModelName() + " @ " + device_list.at(i).GetIpAddress() + " # " + device_list.at(i).GetMacAddress();
+	}
 
+	Pylon::CBaslerUniversalInstantCameraArray cameras(num_cams);
+
+	for (auto i = 0; i < device_list.size(); ++i) {
+		std::cout << "Try attaching " << camera_names[i] << "..." << std::endl;
 		while (true) {
 			try {
 				cameras[i].Attach(Pylon::CTlFactory::GetInstance().CreateDevice(device_list.at(i)));
@@ -43,7 +45,7 @@ int main() {
 
 				break;
 			} catch (Pylon::GenericException const& e) {
-				std::cout << "[Camera " << camera_names[i] << "]: " << e.GetDescription() << "! Reconnect in 5s..." << std::endl;
+				std::cout << "[Camera " << camera_names[i] << "]: " << e.GetDescription() << "! Retry in 5s..." << std::endl;
 
 				std::this_thread::sleep_for(5s);
 				continue;
